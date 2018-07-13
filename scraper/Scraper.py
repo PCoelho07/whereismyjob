@@ -2,12 +2,13 @@
 
 import requests as re
 import pandas as pd
+import os
 from bs4 import BeautifulSoup
 
 class Scraper(object):
 	
 	__url = ''
-	__result = {}
+	result = {}
 
 	def __init__(self, url):
 		self.__url = url
@@ -20,16 +21,17 @@ class Scraper(object):
 
 	def get_content_page(self):
 		response = re.get(self.__url)
-		page_content = BeautifulSoup(response.content, "html.parse")
+		page_content = BeautifulSoup(response.content, "html.parser")
 
 		return page_content
 
-	def get_jobs_list():
+	def get_jobs_list(self):
 		pass
 
 	def to_csv(self, file_name):
-		dataframe = pd.DataFrame.from_dict(self.__result, oriented="index")
-		dataframe.to_csv(file_name)
+		path = os.path.join(os.path.dirname(__file__), 'data')
+		dataframe = pd.DataFrame.from_dict(self.result)
+		dataframe.to_csv(os.path.join(path, file_name), encoding='utf-8')
 
 
 
